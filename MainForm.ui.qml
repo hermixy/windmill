@@ -6,6 +6,11 @@ Image {
     width: 512
     height: 320
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: wheel.rotation += 90
+    }
+
     Image {
         id: pole
         anchors.horizontalCenter: parent.horizontalCenter
