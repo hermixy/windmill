@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.0
 
 Window {
 
@@ -13,10 +14,17 @@ Window {
         width: 512
         height: 320
 
+        property int blurRadius: 0
+
         MouseArea {
-            id: mouseArea1
             anchors.fill: parent
-            onClicked: wheel.rotation += 90
+            onPressed: {
+                wheel.rotation += 90
+                root.blurRadius = 16
+            }
+            onReleased: {
+                root.blurRadius = 0
+            }
         }
 
         Image {
@@ -30,12 +38,21 @@ Window {
             id: wheel
             anchors.centerIn: parent
             source: "images/pinwheel.png"
-
             Behavior on rotation {
                 NumberAnimation {
                     duration: 250
                 }
             }
+            layer.effect: FastBlur {
+                id: blur
+                radius: root.blurRadius
+                Behavior on radius {
+                    NumberAnimation {
+                        duration: 250
+                    }
+                }
+            }
+            layer.enabled: true
         }
     }
 }
